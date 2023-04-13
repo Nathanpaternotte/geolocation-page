@@ -18,13 +18,19 @@ function successCallback(position) {
 
     const apiUrl = 'https://nominatim.openstreetmap.org/reverse?lat=' + latitude + '&lon=' + longitude + '&format=json';
 
-    // Utilisation de la méthode fetch pour effectuer une requête GET
     fetch(apiUrl)
-      .then(response => response.json()) // Convertir la réponse en JSON
+      .then(response => response.json())
       .then(data => {
-        // Récupérer l'adresse à partir de la réponse JSON
         const address = data.address;
-        console.log(address); // Afficher l'adresse dans la console
+        const city = data.address.village;
+        const road = data.address.road;
+        const house = data.address.house_number;
+        const country = data.address.country;
+        const zip = data.address.postcode;
+        const formated_address = road + ' ' + house + ', ' + zip + ' ' + city + ' (' + country +')';
+        console.log(address);
+        let divAddress = document.getElementById('address');
+        divAddress.innerHTML += formated_address;
       })
       .catch(error => {
         console.error('Erreur lors de la requête API :', error);
